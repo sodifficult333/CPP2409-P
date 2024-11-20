@@ -46,3 +46,15 @@ public:
     void STEP_3(); // STEP 3에서 반복되는 코드 함수화
     void open_file();
 };
+
+// Caculator Class
+class Calculator {
+public:
+    string name; // 항목 이름을 저장할 변수
+    float current_value; // 현재 주차 값을 저장할 변수
+    float previous_value; // 이전 주차 값을 저장할 변수
+    float growth_rate; // 성장률을 저장할 변수
+
+    void cal(); // 계산기 함수
+    void display(); // 결과를 출력하는 함수
+};

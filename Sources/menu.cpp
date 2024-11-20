@@ -192,3 +192,11 @@ void Menu::open_file() { // 한 줄씩 출력하는 함수
         cout << line << endl; // 한 줄씩 출력
     file.close(); // 파일 닫기
 }
+
+// STEP 4.
+void Calculator::cal() { // 계산기 함수
+    growth_rate = (current_value - previous_value) / previous_value * 100; // 현재주 - 이전주 / 이전주 * 100
+}
+void Calculator::display() { // 결과를 출력하는 함수
+    cout << name << " = " << growth_rate << "%" << endl;
+}
