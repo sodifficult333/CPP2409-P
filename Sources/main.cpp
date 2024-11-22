@@ -13,6 +13,7 @@ int main() {
         while(menu.check_number_ver3()) {} // STEP 2에서 잘못 입력한 경우 반복
         // STEP 3
         menu.STEP_3(); // STEP 3 실행
+        menu.file_read(); // 파일 읽기
     }
     else if (menu.number == 2) { // 2 선택 - 세부기능 2)로 진행
         menu.print_2(); // 세부기능 2)의 안내 메세지 출력
