@@ -40,7 +40,6 @@ void Menu::Print_1() { // 세부기능 1) 사용 문구
     Enter();
 }
 void Menu::Print_2() { // 세부기능 2) 사용 문구
-    number = 0; // number값 초기화 필수
     Enter();
     cout << "아래의 선택사항 중 하나를 번호를 입력하세요." << endl;
     cout << "추가하고 싶은 목록이 있다면 '/add'를 입력하세요.";
@@ -52,23 +51,9 @@ void Menu::Print_2() { // 세부기능 2) 사용 문구
 }
 bool Menu::Check_Number_Ver1() { // 번호 검사하는 함수 : version 1 - 세부기능 1) 사용
     Please(); // 안내문 출력
-
-    // int형이 아닌 문자 입력시 오류 방지
-    if (!(cin >> number)) { // 입력 : int(X)
-        cin.clear(); // 오류 초기화
-        cin.ignore(10000, '\n'); // 값 무시
-        Enter();
-        cout << "다시 입력하세요." << endl;
-        return true; // true반환 : 다시 반복
-    }
-
+    cin >> input;
     // 숫자 구분
-    if(number == 1) { // 입력 : 1
-        Enter();
-        Next_Page();
-        return false; // false반환 : 반복문 탈출
-    }
-    else if(number == 2) { // 입력 : 2
+    if(input == "1" || input == "2") { // 입력 : 1 or 2
         Enter();
         Next_Page();
         return false; // false반환 : 반복문 탈출
@@ -124,23 +109,14 @@ void Menu::Step_2() { // 단위 선택 안내문 출력
     Enter();
 }
 bool Menu::Check_Number_Ver3() { // version 3 - STEP 2 사용
-    while(true) {
-        Please(); // 번호를 입력해 달라는 안내문
-        // 위 방법과 똑같은 방법으로 int형이 아닌 문자가 들어올 시 오류를 초기화하고 입력값 무시
-        if(!(cin >> number)) {
-            cin.clear();
-            cin.ignore(10000, '\n');
-            Enter();
-            cout << "다시 입력하세요." << endl;
-            continue;
-        }
-        // 입력한 숫자가 1 or 2이면 반복문 빠져나오기
-        if(number == 1 || number == 2) { return false; }
-        else { // 그 외의 다른 숫자들 처리
-            Enter();
-            cout << "다시 입력하세요." << endl;
-            continue;
-        }
+    Please(); // 번호를 입력해 달라는 안내문
+    cin >> input;
+    // 입력한 숫자가 1 or 2이면 반복문 빠져나오기
+    if(input == "1" || input == "2") { return false; }
+    else { // 그 외의 다른 숫자들 처리
+        Enter();
+        cout << "다시 입력하세요." << endl;
+        return true; // 반복
     }
 }
 
@@ -177,7 +153,7 @@ void Menu::Step_3() { // STEP 3 실행 함수
         }
         break; // 올바르면 그만둔다.
     }
-    Data_Analysis(path);
+    Data_Analysis(path); // 데이터 분석
 }
 
 // STEP 4.
@@ -227,7 +203,7 @@ void Calculator::Cal() { // 계산기 함수
     float rate; // 계산 결과값이 저장될 float 변수
     for (auto& row : current_value) {
         for (int j = 0; j < row.size(); j++) {
-            // 현재주 - 이전주 / 이전주 * 100
+            // 증가한 비율 계산 : 현재주 - 이전주 / 이전주 * 100
             if (first_value[j] != 0) // 분모가 0이 아닐 경우 : 계산 진행
                 rate = ((row[j]) - first_value[j]) / first_value[j] * 100;
             else
@@ -241,12 +217,68 @@ void Calculator::Display() { // 결과를 출력하는 함수
     cout << "< 성장률 계산 결과 >" << endl << endl;
     auto growth_rate_start = growth_rate.begin(); // 벡터의 시작값을 변수에 저장 (auto로 타입 자동 선정)
     for (auto& i : week) {
-        cout << i << " 성장률" << endl; // 몇 주차인지 나타내는 반복문
+        cout << "[ " << i << " ]" << endl; // 몇 주차인지 나타내는 반복문
         for (int j = 0; j < name.size(); ++j) {
             // 종목과 성장률을 나타내는 반복문 : fixed << setprecision(2) : 소수 2번째 자리까지 표기
             cout << name[j] << ": " << fixed << setprecision(2) << *growth_rate_start << "%" << endl;
             ++ growth_rate_start; // 값 증가
         }
         cout << endl;
+    }
+    Graph_Cal(growth_rate); // 그래프 비율을 계산하고
+    Graph_Print(growth_rate, graph_rate); // 그 비율을 가지고 그래프 출력
+}
+
+// STEP 5.
+void Calculator::Graph_Cal(vector<float> growth_rate) { // 그래프 비율 계산 함수
+    float max_rate = 0; // 초기 최대 비율 0
+
+    cout << endl << endl;
+    cout << "< 그래프 >" << endl << endl;
+    for (int i = 0; i < growth_rate.size(); i++) {
+        if(fabs(growth_rate[i]) > max_rate) { // ||결과값|| 중 제일 큰 것을 저장
+            max_rate = fabs(growth_rate[i]); // fabs는 float 절대값 처리
+        }
+    }
+    for (int i = 0; i < growth_rate.size(); i++) {
+        float temp_graph_rate = (growth_rate[i] / max_rate) * 20; // 그래프 비율 : (비율 / 가장 큰 비율) * 20(칸)
+        graph_rate.push_back(static_cast<int>(round(temp_graph_rate))); // round()함수로 반올림 후 int형으로 배열에 저장
+    }
+}
+void Calculator::Graph_Print(vector<float> growth_rate, vector<int> graph_rate) { // 그래프 출력 함수
+    int all_bar = 40; // 총 표기할 칸 수 40
+    int right_bar = all_bar / 2; // 오른쪽 칸 20
+    int left_bar = all_bar / 2; // 왼쪽 칸 20
+    auto graph_rate_start = graph_rate.begin(); // 그래프 비율 벡터의 시작값 저장
+    auto growth_rate_start = growth_rate.begin(); // 성장 비율 벡터의 시작값 저장
+
+    for (auto& i : week) {
+        cout << "[ " << i << " ]" << endl; // 몇 주차인지 나타내는 반복문
+        for (int j = 0; j < name.size(); ++j) {
+            cout << name[j] << ": "; // 종목 이름 출력
+            if (*graph_rate_start < 0) { // 성장률이 음수일 때 그래프 그리기
+                for (int k = 0; k < left_bar; k++) { // 왼쪽 칸 수만큼 반복 20
+                    if (k < left_bar - abs(*graph_rate_start)) // 성장률이 음수이므로 절대값 처리
+                        cout << "□";
+                    else
+                        cout << "■";
+                }
+            }
+            else {
+                for (int k = 0; k < left_bar; k++)
+                    cout << "□";
+            }
+            cout << "|"; // 칸 나누기 : 음수 | 양수
+            for (int k = 0; k < right_bar; k++) {
+                if (k < *graph_rate_start && *graph_rate_start > 0) // 성장률이 양수일 때 그래프 그리기
+                    cout << "■";
+                else
+                    cout << "□";
+            }
+            cout << " (" << fixed << setprecision(2) << *growth_rate_start << "%)" << endl; // 성장 비율을 소수 2번째자리까지 출력
+            growth_rate_start ++; // 다음 성장률로 업데이트
+            graph_rate_start ++; // 다음 그래프 비율로 업데이트
+        }
+        cout << endl; // 줄바꿈
     }
 }

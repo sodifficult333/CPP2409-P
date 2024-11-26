@@ -5,6 +5,7 @@
 # include <sstream> // 파일 구분하기
 # include <cstdlib> // atof로 형변환하기
 # include <iomanip> // setprecision으로 소수점 표기하기
+# include <cmath> // 절대값 구현하기 + round() 반올림 함수
 using namespace std;
 
 // STEP 1 : 시작 단계 구현
@@ -20,11 +21,16 @@ protected:
     vector<vector<float>> current_value; // 현재 주차 값을 저장할 2차원 벡터
     vector<float> first_value; // 첫 주차 값을 저장할 벡터
     vector<float> growth_rate; // 성장률을 저장할 벡터
+    vector<int> graph_rate; // 그래프 비율을 저장할 벡터
 public:
     // STEP 4.
     void Data_Analysis(const string& path); // 데이터 파일 분석 함수
     void Cal(); // 계산기 함수
     void Display(); // 결과를 출력하는 함수
+
+    // STEP 5.
+    void Graph_Cal(vector<float> growth_rate); // 그래프 비율 계산 함수
+    void Graph_Print(vector<float> growth_rate, vector<int> grapth_rate); // 그래프 출력 함수
 };
 
 // Menu 클래스 : 10/30 Class : 자식클래스
@@ -47,7 +53,6 @@ public:
 
     // STEP 1.
     Menu(); // 위 string 배열을 벡터로 할당
-    void Step_1();
     void Print_1(); // 세부기능 1) 구현
     void Print_2(); // 세부기능 2) 구현
     bool Check_Number_Ver1(); // 번호 검사 함수 version 1 : menu.cpp에서 설명
