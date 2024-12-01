@@ -157,7 +157,7 @@ void Menu::Step_3() { // STEP 3 실행 함수
 }
 
 // STEP 4.
-void Calculator::Data_Analysis(const string& path) { // 한 줄씩 출력하는 함수
+void Calculator::Data_Analysis(const string& path) { // 한 줄씩 분석하는 함수
     string line; // 한줄 저장할 string 변수
     ifstream file(path); // 파일 경로 열기
     while (getline(file, line)) { // 한줄씩 반복
@@ -199,7 +199,6 @@ void Calculator::Data_Analysis(const string& path) { // 한 줄씩 출력하는 
     Display(); // 결과 표기
 }
 void Calculator::Cal() { // 계산기 함수
-    growth_rate.clear(); // 호출 될 때마다 결과값 초기화
     float rate; // 계산 결과값이 저장될 float 변수
     for (auto& row : current_value) {
         for (int j = 0; j < row.size(); j++) {
