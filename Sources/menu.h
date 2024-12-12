@@ -62,7 +62,6 @@ public:
 
     // SETP 2.
     void Step_2(); // 단위 선택하라는 안내문 출력
-    bool Check_Number_Ver3(); // 번호 검사 함수 version 3 : menu.cpp에서 설명
 
     // STEP 3.
     void Input_Path(); // 파일 위치를 입력받기

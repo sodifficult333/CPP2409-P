@@ -58,7 +58,7 @@ bool Menu::Check_Number_Ver1() { // 번호 검사하는 함수 : version 1 - 세
         Next_Page();
         return false; // false반환 : 반복문 탈출
     }
-    else { // 입력 : 1과 2를 제외한 '숫자들'
+    else { // 1과 2를 제외한 입력들 처리리
         Enter();
         cout << "다시 입력하세요." << endl;
         return true; // true반환 : 다시 반복
@@ -108,17 +108,6 @@ void Menu::Step_2() { // 단위 선택 안내문 출력
     cout << "  2. 주" << endl;
     Enter();
 }
-bool Menu::Check_Number_Ver3() { // version 3 - STEP 2 사용
-    Please(); // 번호를 입력해 달라는 안내문
-    cin >> input;
-    // 입력한 숫자가 1 or 2이면 반복문 빠져나오기
-    if(input == "1" || input == "2") { return false; }
-    else { // 그 외의 다른 숫자들 처리
-        Enter();
-        cout << "다시 입력하세요." << endl;
-        return true; // 반복
-    }
-}
 
 // STEP 3.
 void Menu::Input_Path() { // 경로 입력받기
@@ -136,8 +125,6 @@ bool Menu::Path_Check() { // 경로가 올바른지 확인
     return false;
 }
 void Menu::Step_3_Print() { // STEP 3. 안내문 출력
-    Enter();
-    Next_Page();
     Enter();
     cout << "미리 준비한 파일의 경로를 입력해주세요." << endl;
     cout << "경로에 한글이 포함될 경우 문제가 발생할 수 있습니다." << endl;
