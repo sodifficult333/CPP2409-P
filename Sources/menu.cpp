@@ -47,6 +47,8 @@ void Menu::Print_1() { // 세부기능 1) 사용 문구
 }
 void Menu::Print_2() { // 세부기능 2) 사용 문구
     Enter();
+    Next_Page();
+    Enter();
     cout << "아래의 선택사항 중 하나를 번호를 입력하세요." << endl;
     cout << "추가하고 싶은 목록이 있다면 '/add'를 입력하세요.";
     Enter();
@@ -60,8 +62,6 @@ bool Menu::Check_Number_Ver1() { // 번호 검사하는 함수 : version 1 - 세
     cin >> input;
     // 숫자 구분
     if(input == "1" || input == "2") { // 입력 : 1 or 2
-        Enter();
-        Next_Page();
         return false; // false반환 : 반복문 탈출
     }
     else { // 1과 2를 제외한 입력들 처리리
@@ -72,6 +72,8 @@ bool Menu::Check_Number_Ver1() { // 번호 검사하는 함수 : version 1 - 세
 }
 bool Menu::Check_Number_Ver2() { // version 2 - 세부기능 2-1) 사용
     if(number >= 1 && number <= devide.size()) { // 벡터 사이즈 안의 번호를 입력시 출력하고 반복문 빠져나오기
+        Enter();
+        Next_Page();
         Enter();
         cout << devide[number - 1] << "(을/를) 선택하셨습니다.";
         Enter();
@@ -85,6 +87,8 @@ bool Menu::Check_Number_Ver2() { // version 2 - 세부기능 2-1) 사용
 }
 bool Menu::Check_Add() { // 추가 명령어 - 세부기능 2-1) 사용
     if (input == "/add") { // '/add' 명령어 입력시 안내문을 출력하고 부위 입력받기
+        Enter();
+        Next_Page();
         Enter();
         cout << "한글이 깨지기 때문에 영어로 입력바랍니다." << endl;
         cout << "추가할 항목을 입력하세요 : ";
@@ -133,6 +137,8 @@ bool Menu::Path_Check() { // 경로가 올바른지 확인
     return false;
 }
 void Menu::Step_3_Print() { // STEP 3. 안내문 출력
+    Enter();
+    Next_Page();
     Enter();
     cout << "미리 준비한 파일의 경로를 입력해주세요." << endl;
     cout << "경로에 한글이 포함될 경우 문제가 발생할 수 있습니다." << endl;
@@ -228,9 +234,6 @@ void Calculator::Display() { // 결과를 출력하는 함수
 // STEP 5.
 void Calculator::Graph_Cal(vector<float> growth_rate) { // 그래프 비율 계산 함수
     float max_rate = 0; // 초기 최대 비율 0
-
-    cout << endl << endl;
-    cout << "< 그래프 >" << endl << endl;
     for (int i = 0; i < growth_rate.size(); i++) {
         if(fabs(growth_rate[i]) > max_rate) { // ||결과값|| 중 제일 큰 것을 저장
             max_rate = fabs(growth_rate[i]); // fabs는 float 절대값 처리
@@ -248,8 +251,9 @@ void Calculator::Graph_Print(vector<float> growth_rate, vector<int> graph_rate) 
     auto graph_rate_start = graph_rate.begin(); // 그래프 비율 벡터의 시작값 저장
     auto growth_rate_start = growth_rate.begin(); // 성장 비율 벡터의 시작값 저장
 
-    Next_Page();
-    Enter();
+    Next_Page(); // 다음 페이지 표기
+    Enter(); // 이중 엔터
+    cout << "< 그래프 >" << endl << endl;
 
     for (auto& i : week) {
         cout << "[ " << i << " ]" << endl; // 몇 주차인지 나타내는 반복문

@@ -12,11 +12,11 @@ using namespace std;
 // 전역 변수 : string 부위 배열 : 10/14 string
 const string part[] = {"1. 등", "2. 가슴", "3. 어깨", "4. 하체", "5. 이두", "6. 삼두", "7. 복근"};
 
-// Interface Class - 인터페이스 클래스스
+// Interface Class - 인터페이스 클래스
 class Interface {
 public:
     virtual void Next_Page() = 0; // virtual 가상 함수 정의
-    virtual void Enter() = 0; // virtual 가상 함수 정의의
+    virtual void Enter() = 0; // virtual 가상 함수 정의
 };
 
 // Caculator Class - is-a관계로 사용 : 부모클래스
