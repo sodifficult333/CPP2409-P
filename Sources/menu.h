@@ -12,8 +12,15 @@ using namespace std;
 // 전역 변수 : string 부위 배열 : 10/14 string
 const string part[] = {"1. 등", "2. 가슴", "3. 어깨", "4. 하체", "5. 이두", "6. 삼두", "7. 복근"};
 
+// Interface Class - 인터페이스 클래스스
+class Interface {
+public:
+    virtual void Next_Page() = 0; // virtual 가상 함수 정의
+    virtual void Enter() = 0; // virtual 가상 함수 정의의
+};
+
 // Caculator Class - is-a관계로 사용 : 부모클래스
-class Calculator {
+class Calculator : public Interface{
 protected:
     vector<vector<string>> data; // 데이터 원본을 저장할 벡터
     vector<string> name; // 종목:이름을 저장할 벡터
@@ -31,6 +38,10 @@ public:
     // STEP 5.
     void Graph_Cal(vector<float> growth_rate); // 그래프 비율 계산 함수
     void Graph_Print(vector<float> growth_rate, vector<int> grapth_rate); // 그래프 출력 함수
+
+    // virtual 재정의 - Calculator에서도 사용하기 위해.
+    void Next_Page() override;
+    void Enter() override;
 };
 
 // Menu 클래스 : 10/30 Class : 자식클래스
@@ -46,8 +57,8 @@ public:
     int number; // 입력받은 번호를 저장할 변수
     string input; // 입력받은 명령을 저장할 변수
     // ========================== 사용하기 편하려고 만든 기능들 ========================== //
-    void Next_Page(); // NEXT PAGE print
-    void Enter(); // 이중 엔터
+    void Next_Page() override; // 가상 함수 재정의
+    void Enter() override; // 가상 함수 재정의
     void Please(); // 안내문
     // ================================================================================= //
 

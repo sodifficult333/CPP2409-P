@@ -1,5 +1,11 @@
 #include "menu.h"
 // ============================================================ 편하게 사용하려고 만든 구간 ===================================================================== //
+void Calculator::Next_Page() { // NEXT PAGE print
+    cout << "┌─────────────────── < NEXT PAGE > ───────────────────┐" << endl;
+}
+void Calculator::Enter() { // 이중 Enter
+    cout << endl << endl;
+}
 void Menu::Next_Page() { // NEXT PAGE print
     cout << "┌─────────────────── < NEXT PAGE > ───────────────────┐" << endl;
 }
@@ -100,6 +106,8 @@ void Menu::Check_Input() { // input 숫자 처리
 // STEP 2.
 void Menu::Step_2() { // 단위 선택 안내문 출력
     Enter();
+    Next_Page();
+    Enter();
     cout << "주기를 선택하세요." << endl;
     cout << "1달 주기로 분석을 원하시면 1번, 1주 주기로 분석을 원하시면 2번을 선택해주세요.";
     Enter();
@@ -199,7 +207,9 @@ void Calculator::Cal() { // 계산기 함수
     }
 }
 void Calculator::Display() { // 결과를 출력하는 함수
-    cout << endl << endl;
+    Enter();
+    Next_Page();
+    Enter();
     cout << "< 성장률 계산 결과 >" << endl << endl;
     auto growth_rate_start = growth_rate.begin(); // 벡터의 시작값을 변수에 저장 (auto로 타입 자동 선정)
     for (auto& i : week) {
@@ -237,6 +247,9 @@ void Calculator::Graph_Print(vector<float> growth_rate, vector<int> graph_rate) 
     int left_bar = all_bar / 2; // 왼쪽 칸 20
     auto graph_rate_start = graph_rate.begin(); // 그래프 비율 벡터의 시작값 저장
     auto growth_rate_start = growth_rate.begin(); // 성장 비율 벡터의 시작값 저장
+
+    Next_Page();
+    Enter();
 
     for (auto& i : week) {
         cout << "[ " << i << " ]" << endl; // 몇 주차인지 나타내는 반복문
