@@ -2,7 +2,7 @@
 using namespace std;
 
 int main() {
-    Menu menu;
+    Menu menu; // 클래스 객체 생성
     
     // STEP 1 실행
     menu.Print_1();

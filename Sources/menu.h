@@ -6,6 +6,7 @@
 # include <cstdlib> // atof로 형변환하기
 # include <iomanip> // setprecision으로 소수점 표기하기
 # include <cmath> // 절대값 구현하기 + round() 반올림 함수
+# include <exception> // 예외 처리
 using namespace std;
 
 // STEP 1 : 시작 단계 구현
@@ -17,6 +18,7 @@ class Interface {
 public:
     virtual void Next_Page() = 0; // virtual 가상 함수 정의
     virtual void Enter() = 0; // virtual 가상 함수 정의
+    virtual bool Is_Number(const string& str) = 0;  // virtual 가상 함수 정의
 };
 
 // Caculator Class - is-a관계로 사용 : 부모클래스
@@ -47,7 +49,7 @@ public:
 // Menu 클래스 : 10/30 Class : 자식클래스
 class Menu : public Calculator {
 private:
-    bool Is_Number(const string& str);  // 입력된 string이 int형인지 확인하는 함수
+    bool Is_Number(const string& str) override; // 숫자인지 확인하는 함수 재정의
     string answer; // 추가할 부위를 저장할 변수
     int count; // 사용자가 입력한 부위를 추가할 때 앞에 붙을 숫자 변수
     string path; // 파일 경로를 입력받을 string 변수

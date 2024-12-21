@@ -26,7 +26,7 @@ bool Menu::Is_Number(const string& str) { // 문자열이 숫자인지 확인하
             return false; // 숫자가 아니면 false 반환
         }
     }
-    return true; // 둘 다 해당되지 않으면 true 반환 : 다시 반복
+    return true; // 숫자면 true 반환
 }
 
 //STEP 1.
@@ -128,13 +128,17 @@ void Menu::Input_Path() { // 경로 입력받기
     getline(cin, path); // 파일 경로 입력받기
 }
 bool Menu::Path_Check() { // 경로가 올바른지 확인
-    ifstream file(path); // 입력받은 경로로 파일을 열어보기
-    if(!file.is_open()) { // 파일이 열리지 않을 시 반복
+    try { // try - catch문 활용
+        ifstream file(path); // 입력받은 경로로 파일을 열어보기
+        if(!file.is_open()) { // 파일이 열리지 않을 시 예외 발생
+            throw exception(); // 예외 던지기기
+        }
+    } catch (exception& e) { // 예외 받기기
         Enter();
-        cout << "올바른 경로를 입력해주세요." << endl;
+        cerr << "올바른 경로를 입력해주세요." << endl; // cerr 사용해보기
         return true; // 반복문 반복
     }
-    return false;
+    return false; // 파일을 읽을 수 있으면 반복문 종료
 }
 void Menu::Step_3_Print() { // STEP 3. 안내문 출력
     Enter();
@@ -175,11 +179,21 @@ void Calculator::Data_Analysis(const string& path) { // 한 줄씩 분석하는 
 
     // 이름 저장
     for (int i = 1; i < data[0].size(); i++) {
+        if (data[0][i].empty()) { // 데이터가 비어있으면
+            Enter();
+            cerr << "이름 데이터가 비어있습니다.";
+            return; // 종료
+        }
         name.push_back(data[0][i]);
     }
 
     // 주 저장
     for (int i = 1; i < data.size(); i++) {
+        if (data[i][0].empty()) { // 데이터가 비어있으면
+            Enter();
+            cout << "주 데이터가 비어있습니다.";
+            return; // 종료
+        }
         week.push_back(data[i][0]);
     }
 
@@ -187,7 +201,7 @@ void Calculator::Data_Analysis(const string& path) { // 한 줄씩 분석하는 
     for (int i = 1; i < data.size(); i++) {
         current_value.push_back({});
         for (int j = 1; j < data[0].size(); j++) {
-           current_value.back().push_back(atof(data[i][j].c_str()));
+            current_value.back().push_back(atof(data[i][j].c_str()));
         }
     }
     
@@ -203,9 +217,8 @@ void Calculator::Cal() { // 계산기 함수
     float rate; // 계산 결과값이 저장될 float 변수
     for (auto& row : current_value) {
         for (int j = 0; j < row.size(); j++) {
-            // 증가한 비율 계산 : 현재주 - 이전주 / 이전주 * 100
             if (first_value[j] != 0) // 분모가 0이 아닐 경우 : 계산 진행
-                rate = ((row[j]) - first_value[j]) / first_value[j] * 100;
+                rate = ((row[j]) - first_value[j]) / first_value[j] * 100; // 비율 계산 : 현재주 - 이전주 / 이전주 * 100
             else
                 rate = 0; // 분모가 0일 경우 : 0
             growth_rate.push_back(rate); // 결과값 push_back
